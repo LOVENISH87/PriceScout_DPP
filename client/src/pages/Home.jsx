@@ -70,12 +70,13 @@ const Home = () => {
             expand with analytics, alerts, and admin tools.
           </p>
 
-          <div className="mt-10 flex items-center gap-6">
+          <div className="mt-10 flex items-center gap-6 ">
             <button 
               onClick={() => setIsAuthenticated(true)}
-              className="group relative flex items-center gap-2 rounded-full bg-white px-8 py-4 text-base font-bold text-black transition-all hover:scale-105 hover:shadow-[0_0_40px_-5px_rgba(255,255,255,0.4)]"
+              className="group relative flex items-center gap-2 rounded-full bg-white px-8 py-4 text-base font-extrabold text-black transition-all hover:text-3xl hover:scale-110 hover:shadow-[0_0_40px_-5px_rgba(255,255,255,0.4)]"
             >
-              Get Started
+              {/* Get Started */}
+              Let's Start Searching
               <span className="flex h-5 w-5 items-center justify-center rounded-full bg-black text-white text-xs transition-transform group-hover:rotate-45">↗</span>
             </button>
             <div className="flex -space-x-3">
