@@ -1,0 +1,28 @@
+{
+  "name": "cusrosr11",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"cd server && npm run dev\" \"cd client && npm run dev\"", 
+    "dev": "concurrently \"cd server && npm install\" \"cd client && npm install\"" 
+  
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LOVENISH87/PriceScout_DPP.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/LOVENISH87/PriceScout_DPP/issues"
+  },
+  "homepage": "https://github.com/LOVENISH87/PriceScout_DPP#readme",
+  "dependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

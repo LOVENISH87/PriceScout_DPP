@@ -41,6 +41,9 @@ import express from "express";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 //shit
 // mongoose.set("strictQuery", false);
@@ -66,10 +69,9 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(errorHandler);
+
 // app.use(express.static("public"));
 app.use(express.static(path.join(__dirname, "src/public")));
-
 
 // Connect DB
 connectDB();
@@ -77,6 +79,9 @@ connectDB();
 // API Routes
 app.use("/api/products", productRoutes);
 app.use("/api/shops", shopRoutes);
+
+// Middleware
+app.use(errorHandler);
 
 
 // app.use((req, res) => {
@@ -87,7 +92,7 @@ app.use("/api/shops", shopRoutes);
 
 
 // Start server
-app.listen(4800, () => console.log("running on port 4800"));
+app.listen(4800, () => console.log("running on the port 4800!!!!"));
 
 
 

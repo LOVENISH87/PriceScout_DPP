@@ -43,6 +43,11 @@ const shopSchema = new mongoose.Schema({
     location: {
         type: String,
         trim: true,
+    },
+    
+    website: {
+        type: String,
+        trim: true,
     }
 });
 
