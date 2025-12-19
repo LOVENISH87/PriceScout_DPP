@@ -60,7 +60,7 @@ const Home = () => {
                     opacity: 1,
                     // image: 'url(/src/assets/snowflake.png)',❄️ CAN I USE THIS?
                 }}
-                snowflakeCount={750}
+                snowflakeCount={950}
                 radius={[0.9, 3.0]}
                 speed={[0.5, 2.5]}
                 wind={[0, 0]}
