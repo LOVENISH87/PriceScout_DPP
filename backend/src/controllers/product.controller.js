@@ -34,51 +34,11 @@ export const getProducts = async (req, res) => {
     }
 };
 
-// const getProducts = async (req, resp)=>{
-//     try {
-//         const products = await Product.find().populate('shop') //async nhi await!!!!
-//         //todo Why .populate("shop")?
-
-//         //! Because it replaces the shop ObjectId with full shop details (name + location).
-//         resp.status(200).json(products)
-//     } catch (error) {
-//         resp.status(500).json({message : `${error.message} this one from getProducts!!!`})
-
-//     }
-// }
-
-
 // ! main feture of the project "get lowest price!!!"
-
-// export const getLowestPrices = async (req, res) => {
-//     try {
-//         const products = await Product.find();
-
-        
-//         const lowestMap = {};
-
-//         products.forEach((item) => {
-//             if (!lowestMap[item.name]) {
-//                 lowestMap[item.name] = item;
-//             } else {
-//                 if (item.price < lowestMap[item.name].price) {
-//                     lowestMap[item.name] = item;
-//                 }
-//             }
-//         });
-
-//         const lowestList = Object.values(lowestMap);
-
-//         res.json(lowestList);
-//     } catch (err) {
-//         res.status(500).json({ message: err.message });
-//     }
-// };
-
 
 export const getLowestPrices = async (req, res) => {
     try {
-        const products = await Product.find();
+        const products = await Product.find().populate("shop"); // Populate shop for display
 
         const lowestMap = {};
 
@@ -108,10 +68,50 @@ export const getAllPricesForProduct = async (req, res) => {
     try {
         const productName = req.params.name;
 
-        const products = await Product.find({ name: productName }).sort({ price: 1 });
+        // Populate shop here too so we can see who sells it!
+        const products = await Product.find({ name: productName }).populate("shop").sort({ price: 1 });
 
         res.json(products);
     } catch (err) {
         res.status(500).json({ message: err.message });
+    }
+};
+
+// Get single product by ID
+export const getProductById = async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.id).populate("shop");
+        if (!product) return res.status(404).json({ message: "Product not found" });
+        res.json(product);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Update product
+export const updateProduct = async (req, res) => {
+    try {
+        const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!product) return res.status(404).json({ message: "Product not found" });
+        res.json(product);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+// Delete a product
+export const deleteProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedProduct = await Product.findByIdAndDelete(id);
+
+        if (!deletedProduct) {
+            return res.status(404).json({ message: "Product not found!" });
+        }
+
+        res.status(200).json({ message: "Product deleted successfully!" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 };

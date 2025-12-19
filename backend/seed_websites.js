@@ -6,7 +6,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// dotenv.config();
+// dotenv.config();  //rakhu tab dikkat na kru tb dikkat!!!!
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

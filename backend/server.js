@@ -1,39 +1,4 @@
-// import express from "express";
-// import cors from "cors";
-// import connectDB from "./config/db.js";
 
-// // import productRoutes from ".routes/product.routes.js";
-// // import shopRoutes from ".routes/shop.routes.js";
-
-// import shopRoutes from "./routes/shop.routes.js";
-// import productRoutes from "./routes/product.routes.js";
-
-// // app.use("/shops", shopRoutes);
-// // app.use("/products", productRoutes);
-
-
-// const app = express();
-// app.use(cors())
-// app.use(express.json())
-// connectDB();
-// // app.use('api/products', productRoutes);
-// // app.use('api/shops', shopRoutes);
-
-
-// import Product from "./models/Product.js"; // adjust path if needed
-// import Shop from "./models/Shop.js";
-
-// app.get("/test-shops", async (req, res) => {
-//     try {
-//         const products = await Shop.find() // fetch all products from DB && no need to populate!!
-//         res.json(products);
-//     } catch (err) {
-//         res.status(500).json({ message: err.message });
-//     }
-// });
-// app.listen(4800, () => console.log("running on the port 4800!!!!")); // for node server!!!
-
-// todo middlewere somewhere!!!
 
 
 
@@ -63,6 +28,7 @@ import errorHandler from "./src/middleware/errorHandler.js";
 // Routes
 import productRoutes from "./src/routes/product.routes.js";
 import shopRoutes from "./src/routes/shop.routes.js";
+import authRoutes from "./src/routes/auth.routes.js";
 
 const app = express();
 
@@ -79,7 +45,7 @@ connectDB();
 // API Routes
 app.use("/api/products", productRoutes);
 app.use("/api/shops", shopRoutes);
-
+app.use("/api/auth", authRoutes);
 // Middleware
 app.use(errorHandler);
 

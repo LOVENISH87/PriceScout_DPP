@@ -1,14 +1,23 @@
 import express from "express";
-import { createProduct, getProducts, getLowestPrices,getAllPricesForProduct } from "../controllers/product.controller.js";
-
+import {
+    createProduct,
+    getProducts,
+    getLowestPrices,
+    getAllPricesForProduct,
+    deleteProduct,
+    getProductById,
+    updateProduct
+} from "../controllers/product.controller.js";
+import { protect, adminOnly } from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.post("/", createProduct);
+router.post("/", protect, adminOnly, createProduct);
 router.get("/", getProducts);
 router.get("/lowest", getLowestPrices);
-
-// router.get("/lowestList", getAllPricesForProduct)
-router.get("/prices/:name", getAllPricesForProduct); // !top to bottom!!
+router.get("/prices/:name", getAllPricesForProduct);
+router.delete("/:id", protect, adminOnly, deleteProduct);
+router.get("/:id", protect, adminOnly, getProductById);
+router.put("/:id", protect, adminOnly, updateProduct);
 
 export default router;
