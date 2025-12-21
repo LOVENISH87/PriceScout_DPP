@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELITELINK | The Premium Standard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Montserrat:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #fff;
+            color: #1a1a1a;
+        }
+
+        .serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .gold-border {
+            border-color: #d4af37;
+        }
+
+        .gold-text {
+            color: #d4af37;
+        }
+
+        .premium-card {
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .premium-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen">
+    <nav
+        class="p-10 flex justify-between items-center border-b border-gray-100 uppercase tracking-[0.3em] text-[10px] font-bold">
+        <div class="serif text-3xl normal-case tracking-normal gold-text italic">EliteLink</div>
+        <div class="hidden md:flex gap-12">
+            <a href="http://localhost:5173" class="hover:gold-text transition-colors">← Back to PriceScout</a>
+            <a href="#" class="hover:gold-text transition-colors">Bespoke</a>
+            <a href="#" class="hover:gold-text transition-colors">Collection</a>
+            <a href="#" class="hover:gold-text transition-colors">Heritage</a>
+        </div>
+        <button class="border border-black px-8 py-3 hover:bg-black hover:text-white transition-all">Enquire</button>
+    </nav>
+
+    <header class="py-32 px-6 text-center max-w-4xl mx-auto">
+        <span class="gold-text serif text-2xl italic mb-4 block">Est. 2024</span>
+        <h1 class="serif text-7xl mb-8 leading-tight">Curating the World's<br />Finest Interfaces.</h1>
+        <div class="w-24 h-[1px] bg-black mx-auto mb-12"></div>
+        <p class="text-gray-400 font-light leading-loose tracking-widest uppercase text-[11px]">Strictly Authenticated
+            Hardware for the Discerning Professional</p>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-10 pb-40">
+        <div id="elite-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
+            <div class="col-span-full py-20 text-center serif italic text-3xl opacity-20">Opening the vault...</div>
+        </div>
+    </main>
+
+    <script>
+        const SHOP_ID = "693ab7cfd712661a5b01ff56"; // EliteLink
+        const API_URL = "http://localhost:4800/api/products/shop/" + SHOP_ID;
+
+        async function loadElite() {
+            try {
+                const res = await fetch(API_URL);
+                const items = await res.json();
+                const grid = document.getElementById('elite-grid');
+
+                if (items.length === 0) {
+                    grid.innerHTML = '<div class="col-span-full py-20 text-center serif italic text-2xl opacity-40">The current collection is fully acquired.</div>';
+                    return;
+                }
+
+                grid.innerHTML = items.map(p => `
+                    <div class="premium-card bg-white p-2 border border-gray-50 flex flex-col group">
+                        <div class="aspect-square bg-[#fbfbfb] mb-10 overflow-hidden relative">
+                            <img src="${p.image || 'https://placehold.co/800'}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" alt="${p.name}"/>
+                            <div class="absolute inset-x-0 bottom-0 p-4 bg-white/80 translate-y-full group-hover:translate-y-0 transition-transform flex justify-center backdrop-blur-sm">
+                                <span class="text-[9px] font-bold tracking-[0.2em] uppercase">Add to Curated List</span>
+                            </div>
+                        </div>
+                        <div class="px-8 pb-10 text-center">
+                            <div class="gold-text serif text-lg italic mb-2">${p.brand || 'Luxury Class'}</div>
+                            <h3 class="text-xl font-light mb-6 tracking-tight">${p.name}</h3>
+                            <div class="text-2xl font-light tracking-tighter serif italic">$${p.price.toLocaleString()}</div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                document.getElementById('elite-grid').innerHTML = '<div class="col-span-full text-red-800 serif">Vault access denied.</div>';
+            }
+        }
+        loadElite();
+    </script>
+</body>
+
+</html>

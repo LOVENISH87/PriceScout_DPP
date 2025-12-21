@@ -56,7 +56,7 @@ const ProductDetails = () => {
                             <div className="flex items-center gap-3 mb-4">
                                 <span className="px-3 py-1 bg-emerald-500/10 text-emerald-500 rounded-full text-xs font-bold uppercase tracking-wider border border-emerald-500/20">Best Price</span>
                             </div>
-                            
+
                             <h2 className="text-2xl font-bold text-white mb-4">{bestDeal.name}</h2>
                             <p className="text-gray-400 leading-relaxed mb-8 max-w-2xl">{bestDeal.description}</p>
 
@@ -67,11 +67,14 @@ const ProductDetails = () => {
                                 </div>
                                 <div>
                                     <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Current Price</p>
-                                    <p className="text-3xl font-bold text-white">₹{bestDeal.price.toLocaleString()}</p>
+                                    <p className="text-3xl font-bold text-white">${bestDeal.price.toLocaleString()}</p>
                                 </div>
                             </div>
 
-                            <button className="bg-white text-black px-8 py-3 rounded-xl font-bold text-sm hover:bg-gray-200 transition-colors">
+                            <button
+                                onClick={() => bestDeal.shop?.website ? window.open(bestDeal.shop.website, '_blank') : alert('Retailer digital interface not linked.')}
+                                className="bg-white text-black px-8 py-3 rounded-xl font-bold text-sm hover:bg-gray-200 transition-colors"
+                            >
                                 View Deal ↗
                             </button>
                         </div>
@@ -95,9 +98,14 @@ const ProductDetails = () => {
                                     <tr key={item._id || idx} className="hover:bg-white/5 transition-colors">
                                         <td className="px-6 py-4 text-sm text-gray-500 font-mono">#{idx + 1}</td>
                                         <td className="px-6 py-4 font-medium text-white">{item.shop?.name || 'Unknown'}</td>
-                                        <td className="px-6 py-4 font-bold text-white">₹{item.price.toLocaleString()}</td>
+                                        <td className="px-6 py-4 font-bold text-white">${item.price.toLocaleString()}</td>
                                         <td className="px-6 py-4 text-right">
-                                            <button className="text-xs font-bold text-blue-400 hover:text-blue-300">View →</button>
+                                            <button
+                                                onClick={() => item.shop?.website ? window.open(item.shop.website, '_blank') : alert('Retailer digital interface not linked.')}
+                                                className="text-xs font-bold text-blue-400 hover:text-blue-300"
+                                            >
+                                                View →
+                                            </button>
                                         </td>
                                     </tr>
                                 ))}
@@ -105,8 +113,8 @@ const ProductDetails = () => {
                         </table>
                     </div>
                 </div>
-            </main>
-        </div>
+            </main >
+        </div >
     );
 };
 

@@ -81,11 +81,11 @@ const Auth = () => {
                 )}
                 <input
                     name="email"
-                    type="email"
-                    placeholder="Email"
+                    type={isLogin ? "text" : "email"}
+                    placeholder={isLogin ? "Email or Username" : "Email"}
                     onChange={handleChange}
                     required
-                    className="border p-2 rounded w-full "
+                    className="border p-2 rounded w-full bg-white/5 border-white/10 text-white"
                 />
                 <input
                     name="password"

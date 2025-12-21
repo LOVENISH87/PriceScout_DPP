@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS STORE | Future Hardware</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000;
+            color: #fff;
+        }
+
+        .nexus-font {
+            font-family: 'Syncopate', sans-serif;
+        }
+
+        .red-glow {
+            filter: drop-shadow(0 0 15px rgba(239, 68, 68, 0.4));
+        }
+
+        .border-edge {
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .nx-card {
+            background: linear-gradient(180deg, #0a0a0a 0%, #050505 100%);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen selection:bg-red-500 selection:text-white">
+    <!-- Sidebar / Topbar -->
+    <nav class="p-8 flex justify-between items-center border-b border-red-500/10">
+        <div class="nexus-font text-xl font-bold tracking-tight flex items-center gap-3">
+            <div class="w-2 h-8 bg-red-600"></div>
+            NEXUS <span class="text-red-500">STORE</span>
+        </div>
+        <div class="flex items-center gap-10">
+            <a href="http://localhost:5173"
+                class="nexus-font text-[10px] font-bold tracking-widest text-zinc-600 hover:text-red-500 transition-colors">←
+                RETURN_TO_PRICESCOUT</a>
+            <div class="flex gap-10 text-[10px] font-bold tracking-[0.3em] uppercase opacity-40">
+                <a href="#"
+                    class="hover:text-red-500 hover:opacity-100 transition-all underline-offset-8 hover:underline">Market</a>
+                <a href="#"
+                    class="hover:text-red-500 hover:opacity-100 transition-all underline-offset-8 hover:underline">Contract</a>
+                <a href="#"
+                    class="hover:text-red-500 hover:opacity-100 transition-all underline-offset-8 hover:underline">Access</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="py-32 px-10 border-b border-red-500/10">
+        <h1 class="nexus-font text-5xl md:text-8xl font-bold mb-8 uppercase leading-none">Next Gen<br /><span
+                class="text-red-600">Protocol.</span></h1>
+        <div class="flex flex-col md:flex-row gap-10 items-start">
+            <p class="max-w-xl text-sm leading-relaxed text-zinc-500 font-medium">The underground source for high-end
+                digital components. We provide the hardware that the surface market can't reach. Authenticated,
+                verified, and ready for deployment.</p>
+            <div class="flex gap-4">
+                <div class="border-edge p-4 flex flex-col gap-1">
+                    <span class="text-[8px] font-black tracking-widest text-zinc-600 uppercase">Latency</span>
+                    <span class="nexus-font text-xs">0.02ms</span>
+                </div>
+                <div class="border-edge p-4 flex flex-col gap-1">
+                    <span class="text-[8px] font-black tracking-widest text-zinc-600 uppercase">Uptime</span>
+                    <span class="nexus-font text-xs">99.9%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Table Style -->
+    <main class="max-w-[1400px] mx-auto p-10 pt-20">
+        <div class="nexus-font text-[10px] font-bold tracking-[0.3em] uppercase mb-10 text-red-500/50">Active Inventory
+            Registry</div>
+        <div id="nx-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- Loading -->
+            <div
+                class="col-span-full py-32 text-center nexus-font text-xs animate-pulse tracking-[0.5em] opacity-20 uppercase">
+                Scanning Data Stream...</div>
+        </div>
+    </main>
+
+    <script>
+        const SHOP_ID = "6946fd1ddd07ce918268d43e"; // NEXUS STORE
+        const API_URL = "http://localhost:4800/api/products/shop/" + SHOP_ID;
+
+        async function fetchRegistry() {
+            try {
+                const res = await fetch(API_URL);
+                const items = await res.json();
+                const grid = document.getElementById('nx-grid');
+
+                if (items.length === 0) {
+                    grid.innerHTML = '<div class="col-span-full py-20 text-center opacity-20 nexus-font text-xs">No active nodes in registry.</div>';
+                    return;
+                }
+
+                grid.innerHTML = items.map(p => `
+                    <div class="nx-card border border-white/5 p-6 hover:border-red-500/30 transition-all flex flex-col group">
+                        <div class="aspect-square bg-zinc-900 mb-6 flex items-center justify-center relative overflow-hidden">
+                            <img src="${p.image || 'https://placehold.co/800'}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt="${p.name}"/>
+                            <div class="absolute bottom-4 left-4 nexus-font text-[8px] bg-red-600 px-2 py-1">#${p._id.slice(-4)}</div>
+                        </div>
+                        <div class="flex-1">
+                            <div class="nexus-font text-[8px] text-zinc-600 mb-2 uppercase tracking-widest">${p.brand || 'PROTO'}</div>
+                            <h3 class="font-bold text-sm mb-4 uppercase tracking-wider">${p.name}</h3>
+                        </div>
+                        <div class="flex items-center justify-between mt-6 pt-6 border-t border-red-500/10">
+                            <span class="nexus-font text-sm">$${p.price.toLocaleString()}</span>
+                            <button class="text-[10px] nexus-font font-bold hover:text-red-500 transition-all">ACQUIRE ↗</button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error(err);
+                document.getElementById('nx-grid').innerHTML = '<div class="col-span-full text-red-900 text-xs nexus-font">Fatal Connection Error.</div>';
+            }
+        }
+
+        fetchRegistry();
+    </script>
+</body>
+
+</html>

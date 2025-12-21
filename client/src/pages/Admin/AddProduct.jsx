@@ -79,7 +79,7 @@ const AddProduct = () => {
 
                         <div className="grid grid-cols-2 gap-6">
                             <div className="space-y-1">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-gray-500 ml-1">Market Value (₹)</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest text-gray-500 ml-1">Market Value ($)</label>
                                 <input name="price" type="number" onChange={handleChange} required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-violet-500 transition-all font-black text-xl" placeholder="0.00" />
                             </div>
                             <div className="space-y-1">
@@ -101,6 +101,7 @@ const AddProduct = () => {
                                 <input name="category" type="text" onChange={handleChange} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-violet-500 transition-all font-medium" placeholder="..." />
                             </div>
                         </div>
+
 
                         <div className="space-y-1">
                             <label className="text-[10px] font-black uppercase tracking-widest text-gray-500 ml-1">Visual Reference URL</label>

@@ -46,10 +46,15 @@ export const register = async (req, resp) => {
 
 export const login = async (req, resp) => {
     try {
-        const { email, password } = req.body;
+        const { email, password } = req.body; // 'email' field now serves as Identifier (Email or Name)
 
-        const user = await User.findOne({ email });
-        if (!user) return resp.status(401).json({ message: "Invalid email or password!" });
+        const user = await User.findOne({ 
+            $or: [
+                { email: email },
+                { name: email }
+            ]
+        });
+        if (!user) return resp.status(401).json({ message: "Invalid Identifier or password!" });
 
         const isVerify = await bcrypt.compare(password, user.password);
         if (!isVerify) return resp.status(401).json({ message: "Invalid email or password!" });

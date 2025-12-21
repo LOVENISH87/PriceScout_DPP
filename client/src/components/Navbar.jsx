@@ -39,7 +39,7 @@ const Navbar = () => {
                   <TooltipTrigger asChild>
                     <Link
                       to="/profile"
-                      className="bg-blue-400 hover:bg-blue-400 text-white p-3 hover:scale-105 rounded-xl transition-all ease-in-out duration-120 border border-blue-300 active:scale-90"
+                      className="bg-grey-400 hover:bg-blue-400 text-white p-3 hover:scale-105 rounded-xl transition-all ease-in-out duration-120 border border-blue-300 active:scale-90"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>

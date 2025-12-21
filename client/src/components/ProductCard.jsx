@@ -38,7 +38,7 @@ const ProductCard = ({ product }) => {
             <div className="mt-auto flex items-end justify-between border-t border-white/10 pt-4">
                 <div className="flex flex-col">
                     <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">Valuation</span>
-                    <span className="text-2xl font-bold font-mono text-white tracking-tight">₹{price}</span>
+                    <span className="text-2xl font-bold font-mono text-white tracking-tight">${price}</span>
                 </div>
 
                 <div className="flex flex-col items-end gap-1.5">

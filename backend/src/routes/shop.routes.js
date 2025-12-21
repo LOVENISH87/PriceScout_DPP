@@ -1,11 +1,13 @@
 import express from "express";
-import { createShop, getShops } from "../controllers/shop.controller.js";
+import { createShop, getShops, getShopById, updateShop, deleteShop } from "../controllers/shop.controller.js";
+import { protect, adminOnly } from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.post("/", createShop);
 router.get("/", getShops);
+router.post("/", protect, adminOnly, createShop);
+router.get("/:id", protect, adminOnly, getShopById);
+router.put("/:id", protect, adminOnly, updateShop);
+router.delete("/:id", protect, adminOnly, deleteShop);
 
-//wowowowowowowowowowowowowowowowowowoowowowowowowowowowowow so delete this line in future!!!!
-//wow man!!!
 export default router;

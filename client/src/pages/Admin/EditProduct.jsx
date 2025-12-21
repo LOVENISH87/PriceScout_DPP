@@ -32,7 +32,15 @@ const EditProduct = () => {
         try {
             const res = await fetch(`http://localhost:4800/api/products/${id}`);
             const p = await res.json();
-            if (p) setFormData({ name: p.name || '', price: p.price || '', shop: p.shop?._id || '', brand: p.brand || '', category: p.category || '', image: p.image || '', description: p.description || '' });
+            if (p) setFormData({
+                name: p.name || '',
+                price: p.price || '',
+                shop: p.shop?._id || '',
+                brand: p.brand || '',
+                category: p.category || '',
+                image: p.image || '',
+                description: p.description || ''
+            });
         } catch (err) { console.error(err); }
     };
 
@@ -87,7 +95,7 @@ const EditProduct = () => {
 
                         <div className="grid grid-cols-2 gap-6">
                             <div className="space-y-1">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-gray-500 ml-1">Valuation (₹)</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest text-gray-500 ml-1">Valuation ($)</label>
                                 <input name="price" type="number" value={formData.price} onChange={handleChange} required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500 transition-all font-black text-xl" />
                             </div>
                             <div className="space-y-1">

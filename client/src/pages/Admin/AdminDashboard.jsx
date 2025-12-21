@@ -25,15 +25,21 @@ const AdminDashboard = () => {
     };
 
     const handleDelete = async (id) => {
-        if (!window.confirm('Erase this data point?')) return;
+        if (!window.confirm('Erase this data point from the matrix?')) return;
         try {
             const res = await fetch(`http://localhost:4800/api/products/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
-            if (res.ok) setProducts(products.filter(p => p._id !== id));
+            if (res.ok) {
+                setProducts(products.filter(p => p._id !== id));
+            } else {
+                const errorData = await res.json();
+                alert(`System Error: ${errorData.message || 'Access Denied'}`);
+            }
         } catch (err) {
             console.error(err);
+            alert('Connection Terminal Error. Check backend status.');
         }
     };
 
@@ -51,7 +57,7 @@ const AdminDashboard = () => {
                             <Link to="/admin/shops" className="text-xs font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors pb-1 border-b-2 border-transparent">Infrastructure</Link>
                         </nav>
                     </div>
-                    <Link to="/admin/add-product" className="group flex items-center gap-3 bg-white text-black px-8 py-4 rounded-2xl font-black uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-white/5 active:scale-95">
+                    <Link to="/admin/add-product" className="group flex items-center gap-3 bg-blue-800 text-blue-500 px-8 py-4 rounded-2xl font-black uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-white/5 active:scale-95">
                         Initialize New Entry
                         <span className="text-xl group-hover:rotate-90 transition-transform">+</span>
                     </Link>
@@ -102,13 +108,21 @@ const AdminDashboard = () => {
                                                     {p.shop?.name || 'Local Host'}
                                                 </span>
                                             </td>
-                                            <td className="px-8 py-6 font-black text-xl tracking-tight">₹{p.price.toLocaleString()}</td>
+                                            <td className="px-8 py-6 font-black text-xl tracking-tight">${p.price.toLocaleString()}</td>
                                             <td className="px-8 py-6 text-right">
-                                                <div className="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                    <Link to={`/admin/edit-product/${p._id}`} className="p-2.5 rounded-xl bg-violet-500/10 text-violet-400 hover:bg-violet-500 hover:text-white transition-all border border-violet-500/20">
+                                                <div className="flex items-center justify-end gap-3 opacity-60 hover:opacity-100 transition-opacity">
+                                                    <Link
+                                                        to={`/admin/edit-product/${p._id}`}
+                                                        className="p-2.5 rounded-xl bg-violet-500/10 text-violet-400 hover:bg-violet-500 hover:text-white transition-all border border-violet-500/20 shadow-lg shadow-violet-500/5"
+                                                        title="Edit Product"
+                                                    >
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                                                     </Link>
-                                                    <button onClick={() => handleDelete(p._id)} className="p-2.5 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all border border-red-500/20">
+                                                    <button
+                                                        onClick={() => handleDelete(p._id)}
+                                                        className="p-2.5 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all border border-red-500/20 shadow-lg shadow-red-500/5"
+                                                        title="Delete Product"
+                                                    >
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                                                     </button>
                                                 </div>

@@ -34,6 +34,16 @@ export const getProducts = async (req, res) => {
     }
 };
 
+// Get products by shop ID
+export const getProductsByShop = async (req, res) => {
+    try {
+        const products = await Product.find({ shop: req.params.shopId }).populate("shop");
+        res.json(products);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 // ! main feture of the project "get lowest price!!!"
 
 export const getLowestPrices = async (req, res) => {

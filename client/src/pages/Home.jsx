@@ -245,7 +245,7 @@ const Home = () => {
                                                             <p className="text-sm font-medium text-white line-clamp-1">{product.name}</p>
                                                             <p className="text-xs text-gray-500 mt-0.5">{product.shop?.name}</p>
                                                         </div>
-                                                        <span className="font-bold font-mono text-emerald-400">₹{product.price}</span>
+                                                        <span className="font-bold font-mono text-emerald-400">${product.price}</span>
                                                     </div>
                                                 </div>
                                             ))}
