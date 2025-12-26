@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 import Snowfall from 'react-snowfall';
 
+
+
 const Auth = () => {
     const [isLogin, setIsLogin] = useState(true);
     const [formData, setFormData] = useState({ name: '', email: '', password: '' });
@@ -61,53 +63,67 @@ const Auth = () => {
     };
 
     return (
-       
-        // <div className="max-w-md mx-auto mt-20 p-6 border rounded-lg shadow-md bg-white text-black">
-            <div className='flex flex-col items-center justify-center h-screen  bg-transparent '>
-                 <Snowfall></Snowfall>
-            <h2 className="text-2xl font-bold mb-6 text-center">{isLogin ? 'Login' : 'Signup'}</h2>
+        <div className="min-h-screen bg-[#05060a] flex items-center justify-center relative overflow-hidden">
+            <Snowfall color="light-blue" snowflakeCount={550} />
+            
+            {/* The "Rectangle" box covering the content */}
+            <div className="relative z-10 w-full max-w-md mx-4 p-10 bg-[#0f111a] border border-white/10 rounded-[2rem] shadow-2xl shadow-black/50">
+                <h2 className="text-3xl font-black text-white mb-8 text-center uppercase tracking-tighter">
+                    {isLogin ? 'Login' : 'Signup'}
+                </h2>
 
-            {message && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 text-sm">{message}</div>}
+                {message && (
+                    <div className="bg-red-500/10 border border-red-500/20 text-red-500 px-4 py-3 rounded-xl mb-6 text-xs font-bold uppercase tracking-widest text-center">
+                        {message}
+                    </div>
+                )}
 
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                {!isLogin && (
+                <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                    {!isLogin && (
+                        <input
+                            name="name"
+                            placeholder="Full Name"
+                            onChange={handleChange}
+                            required
+                            className="w-full bg-white/5 border border-white/10 p-4 rounded-xl text-white outline-none focus:border-blue-500/50 transition-all"
+                        />
+                    )}
                     <input
-                        name="name"
-                        placeholder="Name"
+                        name="email"
+                        type={isLogin ? "text" : "email"}
+                        placeholder={isLogin ? "Email or Username" : "Email Address"}
                         onChange={handleChange}
                         required
-                        className="border p-2 rounded w-full bg-transparent"
+                        className="w-full bg-white/5 border border-white/10 p-4 rounded-xl text-white outline-none focus:border-blue-500/50 transition-all font-medium"
                     />
-                )}
-                <input
-                    name="email"
-                    type={isLogin ? "text" : "email"}
-                    placeholder={isLogin ? "Email or Username" : "Email"}
-                    onChange={handleChange}
-                    required
-                    className="border p-2 rounded w-full bg-white/5 border-white/10 text-white"
-                />
-                <input
-                    name="password"
-                    type="password"
-                    placeholder="Password"
-                    onChange={handleChange}
-                    required
-                    className="border p-2 rounded w-full"
-                />
-                <button type="submit" disabled={loading} className="bg-blue-500 text-white py-2 rounded hover:bg-blue-600 disabled:opacity-50 font-medium">
-                    {loading ? 'Processing...' : (isLogin ? 'Login' : 'Signup')}
-                </button>
-            </form>
+                    <input
+                        name="password"
+                        type="password"
+                        placeholder="Password"
+                        onChange={handleChange}
+                        required
+                        className="w-full bg-white/5 border border-white/10 p-4 rounded-xl text-white outline-none focus:border-blue-500/50 transition-all"
+                    />
+                    <button 
+                        type="submit" 
+                        disabled={loading} 
+                        className="w-full bg-blue-600 hover:bg-blue-400 text-white py-4 rounded-xl font-black uppercase tracking-widest transition-all shadow-lg shadow-blue-600/20 active:scale-95 disabled:opacity-50 mt-2"
+                    >
+                        {loading ? 'Processing...' : (isLogin ? 'Authenticate' : 'Register')}
+                    </button>
+                </form>
 
-            <div className="mt-4 text-center text-sm text-gray-600">
-                {isLogin ? "Don't have an account? " : "Already have an account? "}
-                <button
-                    onClick={() => setIsLogin(!isLogin)}
-                    className="text-blue-500 hover:underline font-medium"
-                >
-                    {isLogin ? 'Register' : 'Login'}
-                </button>
+                <div className="mt-8 text-center">
+                    <button
+                        onClick={() => setIsLogin(!isLogin)}
+                        className="text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors"
+                    >
+                        {isLogin ? "Don't have an account? " : "Already have an account? "}
+                        <span className="text-blue-400">
+                            {isLogin ? 'Create Account' : 'Sign In'}
+                        </span>
+                    </button>
+                </div>
             </div>
         </div>
     );
