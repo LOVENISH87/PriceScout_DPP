@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LocalStore | Your Neighborhood Market</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-green-50">
+    <!-- Header -->
+    <header class="bg-green-600 text-white py-6 px-8 shadow-lg">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-4xl font-bold">🏪 LocalStore</h1>
+            <a href="http://localhost:5173" class="bg-white text-green-600 px-6 py-2 rounded-lg font-semibold hover:bg-green-100">← Back to PriceScout</a>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="bg-white py-16 px-8 border-b">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="text-5xl font-bold mb-4">Fresh Products, Fair Prices</h2>
+            <p class="text-xl text-gray-600">Discover amazing deals from your local neighborhood store</p>
+        </div>
+    </section>
+
+    <!-- Products Grid -->
+    <main class="max-w-7xl mx-auto px-8 py-12">
+        <h3 class="text-3xl font-bold mb-8">Our Products</h3>
+        <div id="product-grid" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div class="col-span-full text-center py-20 text-gray-400 animate-pulse">Loading products...</div>
+        </div>
+    </main>
+
+    <script>
+        const SHOP_ID = "695239d903973d55274b744f"; // LocalStore
+        const API_URL = "http://localhost:4800/api/products/shop/" + SHOP_ID;
+
+        async function loadProducts() {
+            try {
+                const res = await fetch(API_URL);
+                const products = await res.json();
+                const grid = document.getElementById('product-grid');
+
+                if (products.length === 0) {
+                    grid.innerHTML = '<div class="col-span-full text-center py-20 text-gray-500 font-semibold">No products available at the moment.</div>';
+                    return;
+                }
+
+                grid.innerHTML = products.map(p => `
+                    <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow overflow-hidden">
+                        <div class="aspect-square bg-gray-100 flex items-center justify-center p-4">
+                            <img src="${p.image || 'https://placehold.co/400x400?text=Product'}" alt="${p.name}" class="w-full h-full object-contain"/>
+                        </div>
+                        <div class="p-4">
+                            <div class="text-xs text-green-600 font-semibold uppercase mb-1">${p.brand || 'LocalStore'}</div>
+                            <h4 class="font-bold text-lg mb-3 line-clamp-2">${p.name}</h4>
+                            <div class="flex justify-between items-center">
+                                <span class="text-2xl font-bold text-green-600">$${p.price.toLocaleString()}</span>
+                                <button class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                document.getElementById('product-grid').innerHTML = '<div class="col-span-full text-red-500 text-center font-bold">Error loading products. Please try again.</div>';
+                console.error(err);
+            }
+        }
+        loadProducts();
+    </script>
+</body>
+</html>

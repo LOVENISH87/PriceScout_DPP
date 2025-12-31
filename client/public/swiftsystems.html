@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwiftSystems | Fast Hardware Delivery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #0f0f0f;
+            color: #ffffff;
+        }
+
+        .swift-red {
+            background: linear-gradient(90deg, #ef4444 0%, #b91c1c 100%);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen">
+    <div class="swift-red h-1 w-full"></div>
+    <nav class="px-8 py-6 flex justify-between items-center border-b border-white/5 bg-black sticky top-0 z-50">
+        <div class="flex items-center gap-1 font-black text-3xl italic tracking-tighter">
+            <span class="text-red-600">SWIFT</span>SYSTEMS
+        </div>
+        <a href="http://localhost:5173"
+            class="bg-white/5 border border-white/10 px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-red-600 transition-all">Back
+            To Main</a>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-8 py-20">
+        <div class="flex flex-col md:flex-row justify-between items-end gap-10 mb-20">
+            <div class="flex-1">
+                <h1 class="text-9xl font-black italic tracking-tighter leading-[0.8] mb-8">FAST.<br />FASTER.</h1>
+                <p class="text-xl text-gray-500 max-w-sm uppercase font-bold tracking-widest">Toronto's highest
+                    performance tech logistics hub. 1-hour digital keys.</p>
+            </div>
+            <div class="bg-red-600 text-black px-10 py-5 rounded-3xl font-black text-2xl rotate-2">SYSTEMS_GREEN</div>
+        </div>
+
+        <div id="swift-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="col-span-full py-20 text-center text-red-600 font-black animate-pulse uppercase tracking-[2em]">
+                Accelerating...</div>
+        </div>
+    </main>
+
+    <script>
+        const SHOP_ID = "695239d903973d55274b745a";
+        const API_URL = "http://localhost:4800/api/products/shop/" + SHOP_ID;
+
+        async function load() {
+            try {
+                const res = await fetch(API_URL);
+                const items = await res.json();
+                const grid = document.getElementById('swift-grid');
+                if (items.length === 0) { grid.innerHTML = '<div class="col-span-full py-20 text-center font-black">DEAD LINK. NO STOCK.</div>'; return; }
+                grid.innerHTML = items.map(p => `
+                    <div class="bg-[#1a1a1a] p-1 rounded-3xl group transition-all hover:bg-red-600">
+                        <div class="bg-black p-8 rounded-[1.4rem] h-full flex flex-col">
+                            <div class="aspect-square rounded-2xl bg-[#0f0f0f] mb-8 relative overflow-hidden flex items-center justify-center p-6">
+                                <img src="${p.image || 'https://placehold.co/400x400'}" class="w-full h-full object-contain group-hover:rotate-12 transition-transform duration-500" alt="${p.name}"/>
+                            </div>
+                            <h3 class="text-xl font-black uppercase italic leading-none mb-6 min-h-[3rem] line-clamp-2">${p.name}</h3>
+                            <div class="mt-auto flex items-center justify-between">
+                                <span class="text-3xl font-black">$${p.price.toLocaleString()}</span>
+                                <button class="w-12 h-12 rounded-full swift-red flex items-center justify-center text-black hover:scale-110 transition-transform">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m12 5 7 7-7 7"/><path d="M5 12h14"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) { grid.innerHTML = '<div class="text-red-600 font-bold">SYSTEM_ERROR.</div>'; }
+        }
+        load();
+    </script>
+</body>
+
+</html>

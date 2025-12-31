@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlobalGadget | Tech For Everyone</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }
+        .modern-shadow { shadow-lg shadow-slate-200; }
+    </style>
+</head>
+<body class="min-h-screen">
+    <nav class="bg-white px-8 py-5 border-b border-slate-200 flex justify-between items-center sticky top-0 z-50">
+        <h1 class="text-3xl font-black text-slate-900 tracking-tight">GLOBAL<span class="text-indigo-600">GADGET</span></h1>
+        <div class="flex gap-8 items-center">
+            <a href="http://localhost:5173" class="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-indigo-600 transition-colors">← Catalog</a>
+            <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-bold">🛒</div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-8 py-16">
+        <div class="mb-16">
+            <h2 class="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-600 mb-2">New Arrival In New York</h2>
+            <h3 class="text-5xl font-black text-slate-900">CURATED TECH HUB</h3>
+        </div>
+
+        <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+            <div class="col-span-full py-32 text-center text-slate-400 font-medium">Connecting to Warehouse...</div>
+        </div>
+    </main>
+
+    <script>
+        const SHOP_ID = "695239d903973d55274b7457";
+        const API_URL = "http://localhost:4800/api/products/shop/" + SHOP_ID;
+
+        async function load() {
+            try {
+                const res = await fetch(API_URL);
+                const items = await res.json();
+                const grid = document.getElementById('product-grid');
+                if (items.length === 0) { grid.innerHTML = '<div class="col-span-full py-20 text-center text-slate-300">Warehouse Empty</div>'; return; }
+                grid.innerHTML = items.map(p => `
+                    <div class="bg-white rounded-[2rem] p-8 modern-shadow transition-all hover:-translate-y-2 border border-slate-100">
+                        <div class="aspect-square rounded-3xl bg-slate-50 mb-8 p-6 flex items-center justify-center">
+                            <img src="${p.image || 'https://placehold.co/400x400'}" class="w-full h-full object-contain" alt="${p.name}"/>
+                        </div>
+                        <p class="text-[10px] font-black uppercase text-indigo-600 mb-2 tracking-widest">${p.brand || 'GLOBAL'}</p>
+                        <h4 class="font-bold text-xl text-slate-900 mb-6 leading-none line-clamp-2">${p.name}</h4>
+                        <div class="flex items-center justify-between">
+                            <span class="text-3xl font-black text-slate-900 tracking-tighter">$${p.price.toLocaleString()}</span>
+                            <button class="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-bold text-sm hover:bg-slate-900 hover:scale-105 transition-all">Add</button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) { grid.innerHTML = '<div class="col-span-full text-red-500 font-bold">Network Fault.</div>'; }
+        }
+        load();
+    </script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FutureForge | Industrial Grade Computing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background-color: #050505;
+            color: #fbbf24;
+        }
+
+        .forge-grid {
+            background-image: radial-gradient(#1a1a1a 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .neon-border {
+            border: 2px solid #fbbf24;
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.3);
+        }
+
+        .neon-btn:hover {
+            background-color: #fbbf24;
+            color: #000;
+            box-shadow: 0 0 30px #fbbf24;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen forge-grid">
+    <nav class="border-b-4 border-amber-400 p-8 flex justify-between items-center bg-black">
+        <div class="flex items-center gap-4">
+            <div class="h-10 w-10 bg-amber-400 rotate-45"></div>
+            <h1 class="text-4xl font-black uppercase tracking-tighter">Future<span class="text-white">Forge</span></h1>
+        </div>
+        <div class="flex gap-8">
+            <span class="text-[10px] font-bold uppercase p-2 border border-amber-500/30">LOCATION:
+                SINGAPORE_LOG_HUB</span>
+            <a href="http://localhost:5173"
+                class="text-[10px] font-black uppercase p-2 bg-amber-400 text-black">EXIT_CATALOG</a>
+        </div>
+    </nav>
+
+    <header class="py-24 px-8 border-b border-amber-500/20">
+        <div class="max-w-5xl">
+            <div class="text-[10px] mb-4 text-white opacity-50 font-bold tracking-[.3em]">[ INVENTORY_STREAM_ACTIVE ]
+            </div>
+            <h2 class="text-7xl font-black uppercase mb-8">Forging Tomorrow's<br /><span
+                    class="text-white">Infrastructure.</span></h2>
+            <p class="text-xl max-w-xl text-amber-500/70">Industrial grade computing assets for enterprise deployment.
+                No fluff. Just power.</p>
+        </div>
+    </header>
+
+    <main class="mx-auto px-8 py-20">
+        <div id="forge-list"
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 border-l border-t border-amber-500/20">
+            <div class="col-span-full py-20 text-center animate-pulse tracking-[.5em] font-black">[
+                RETRIEVING_DATA_PACKETS ]</div>
+        </div>
+    </main>
+
+    <script>
+        const SHOP_ID = "695239d903973d55274b745b";
+        const API_URL = "http://localhost:4800/api/products/shop/" + SHOP_ID;
+
+        async function load() {
+            try {
+                const res = await fetch(API_URL);
+                const items = await res.json();
+                const grid = document.getElementById('forge-list');
+                if (items.length === 0) { grid.innerHTML = '<div class="col-span-full py-20 border border-amber-500/20 text-center font-black">WAREHOUSE_EMPTY.</div>'; return; }
+                grid.innerHTML = items.map(p => `
+                    <div class="border-r border-b border-amber-500/20 p-8 group transition-all hover:bg-amber-400/5">
+                        <div class="aspect-square bg-white/5 mb-8 flex items-center justify-center p-6 border border-amber-500/10 group-hover:border-amber-400">
+                             <img src="${p.image || 'https://placehold.co/800x800'}" class="w-full h-full object-contain mix-blend-screen opacity-70 group-hover:opacity-100" alt="${p.name}"/>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="text-[8px] font-black text-white bg-amber-500/20 px-2 py-1 inline-block">${p.brand || 'SYSTEM'}</div>
+                            <h4 class="text-xl font-black uppercase leading-tight min-h-[3rem] line-clamp-2">${p.name}</h4>
+                            <div class="flex items-center justify-between pt-6">
+                                <span class="text-3xl font-black text-white">$${p.price.toLocaleString()}</span>
+                                <button class="neon-border px-6 py-2 text-xs font-black uppercase neon-btn transition-all">DEPLY</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) { grid.innerHTML = '<div class="col-span-full text-red-500 p-20 font-black">CRITICAL_CONNECTION_ERROR.</div>'; }
+        }
+        load();
+    </script>
+</body>
+
+</html>

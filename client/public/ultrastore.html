@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UltraStore | Premium Shopping Experience</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="bg-black/20 backdrop-blur-lg text-white py-6 px-8 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-4xl font-black tracking-tight">⚡ ULTRASTORE</h1>
+            <a href="http://localhost:5173"
+                class="bg-white text-purple-600 px-6 py-2 rounded-full font-bold hover:scale-105 transition-transform">←
+                PriceScout</a>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="text-white py-20 px-8">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="text-6xl font-black mb-6 drop-shadow-2xl">ULTRA PREMIUM TECH</h2>
+            <p class="text-2xl opacity-90">The finest products at unbeatable prices</p>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <main class="max-w-7xl mx-auto px-8 pb-20">
+        <div id="products" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="col-span-full text-center text-white py-20 animate-pulse">⚡ Loading Ultra Products...</div>
+        </div>
+    </main>
+
+    <script>
+        const SHOP_ID = "695239d903973d55274b7450"; // UltraStore
+        const API_URL = "http://localhost:4800/api/products/shop/" + SHOP_ID;
+
+        async function loadProducts() {
+            try {
+                const res = await fetch(API_URL);
+                const products = await res.json();
+                const container = document.getElementById('products');
+
+                if (products.length === 0) {
+                    container.innerHTML = '<div class="col-span-full text-white/70 text-center py-20 font-bold">Inventory restocking...</div>';
+                    return;
+                }
+
+                container.innerHTML = products.map(p => `
+                    <div class="bg-white/10 backdrop-blur-xl rounded-2xl overflow-hidden hover:bg-white/20 transition-all hover:scale-105 border border-white/20">
+                        <div class="aspect-square bg-white/5 flex items-center justify-center p-6">
+                            <img src="${p.image || 'https://placehold.co/500x500?text=Ultra+Product'}" alt="${p.name}" class="w-full h-full object-contain"/>
+                        </div>
+                        <div class="p-6 text-white">
+                            <div class="text-xs font-black uppercase tracking-widest text-purple-300 mb-2">${p.brand || 'UltraStore'}</div>
+                            <h4 class="font-bold text-xl mb-4">${p.name}</h4>
+                            <div class="flex justify-between items-center">
+                                <span class="text-3xl font-black">$${p.price.toLocaleString()}</span>
+                                <button class="bg-white text-purple-600 px-5 py-2 rounded-full font-bold hover:bg-purple-100 transition-colors">BUY</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                document.getElementById('products').innerHTML = '<div class="col-span-full text-red-300 text-center font-bold">Connection Error</div>';
+                console.error(err);
+            }
+        }
+        loadProducts();
+    </script>
+</body>
+
+</html>

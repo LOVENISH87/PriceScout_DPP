@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import Snowfall from 'react-snowfall';
 import Navbar from "../components/Navbar.jsx";
 import ProductCard from "../components/ProductCard.jsx";
@@ -15,8 +16,8 @@ const Home = () => {
     const [inputValue, setInputValue] = useState("");
     const [isSearching, setIsSearching] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [visibleCount, setVisibleCount] = useState(8);
-    const [visibleShops, setVisibleShops] = useState(5);
+    const [visibleCount, setVisibleCount] = useState(16);
+    const [visibleShops, setVisibleShops] = useState(6);
 
     const handleSearch = async () => {
         setIsSearching(true);
@@ -210,9 +211,9 @@ const Home = () => {
                                             </button>
                                         )}
 
-                                        {visibleCount > 8 && (
+                                        {visibleCount > 16 && (
                                             <button
-                                                onClick={() => setVisibleCount(8)}
+                                                onClick={() => setVisibleCount(16)}
                                                 className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm font-medium text-white transition-all hover:bg-white/10 hover:text-white"
                                             >
                                                 Show Less
@@ -239,7 +240,11 @@ const Home = () => {
                                     ) : (
                                         <div className="space-y-4">
                                             {deals.slice(0, 5).map((product) => (
-                                                <div key={product._id} className="relative group p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors border border-transparent hover:border-white/10">
+                                                <Link 
+                                                    key={product._id} 
+                                                    to={`/product/${encodeURIComponent(product.name)}`}
+                                                    className="block relative group p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors border border-transparent hover:border-white/10"
+                                                >
                                                     <div className="flex justify-between items-start">
                                                         <div>
                                                             <p className="text-sm font-medium text-white line-clamp-1">{product.name}</p>
@@ -247,10 +252,25 @@ const Home = () => {
                                                         </div>
                                                         <span className="font-bold font-mono text-emerald-400">${product.price}</span>
                                                     </div>
-                                                </div>
+                                                </Link>
                                             ))}
                                         </div>
                                     )}
+                                </div>
+
+                                <div>
+                                    <h2 className="text-lg font-bold text-white mb-4 px-2">Trending Comparisons</h2>
+                                    <div className="flex flex-wrap gap-2 px-2">
+                                        {['iPhone 15 Pro Max', 'Samsung Galaxy S24 Ultra', 'MacBook Pro 16-inch M3', 'Sony WH-1000XM5 Headphones', 'Nintendo Switch OLED', 'PlayStation 5 Console', 'DJI Mini 3 Pro Drone'].map((name) => (
+                                            <Link 
+                                                key={name}
+                                                to={`/product/${encodeURIComponent(name)}`}
+                                                className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-gray-400 uppercase tracking-widest hover:border-violet-500/50 hover:text-white transition-all"
+                                            >
+                                                {name}
+                                            </Link>
+                                        ))}
+                                    </div>
                                 </div>
 
                                 <div>
@@ -275,9 +295,9 @@ const Home = () => {
                                                     </button>
                                                 )}
 
-                                                {visibleShops > 5 && (
+                                                {visibleShops > 6 && (
                                                     <button
-                                                        onClick={() => setVisibleShops(5)}
+                                                        onClick={() => setVisibleShops(6)}
                                                         className="w-full rounded-xl border border-transparent py-2 text-xs font-medium text-gray-600 transition-colors hover:text-gray-400"
                                                     >
                                                         Show Less
