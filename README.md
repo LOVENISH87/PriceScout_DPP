@@ -45,26 +45,4 @@ PriceScout_DPP/
 ├── .env              # Environment variables for configuration
 └── README.md         # Project documentation
 ```
-
-## Contributing
-We welcome contributions to the PriceScout DPP project. Please follow these steps if you'd like to contribute:
-1. Fork the repository.
-2. Create a new branch for your feature/bug fix:
-   ```bash
-   git checkout -b your-feature-branch
-   ```
-3. Make your changes and commit them:
-   ```bash
-   git commit -m "Add some feature"
-   ```
-4. Push to the branch:
-   ```bash
-   git push origin your-feature-branch
-   ```
-5. Open a Pull Request.
-
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgements
-- Thank you to all the contributors and users who made this project possible!
+ 
